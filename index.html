@@ -19,17 +19,48 @@
     .language-css {
       height: 300px;
     }
+
+    .alert {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 999;
+      opacity: 0;
+      /* smooth transition */
+      transition: all 0.5s ease-in-out;
+    }
+
+
+    code::after {
+      /* copy button */
+      content: "copy";
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      color: white;
+      background-color: #3b5998;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
   <title>Document</title>
 </head>
 
 <body>
+
+  <!-- Alert -->
+  <div class="alert alert-primary" role="alert">
+    Copy Code เรียบร้อยแล้ว
+  </div>
+
   <!-- Image and text -->
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <img src="https://play-lh.googleusercontent.com/w4sc5jS33h5_hTJ3OIpYH4U0M0OpW6caciLdiks5w8KJxCXdqKysHDHgDH-qv-WO3jo=w240-h480-rw" class="me-2" height="20"
-          alt="MDB Logo" loading="lazy" />
+        <img
+          src="https://play-lh.googleusercontent.com/w4sc5jS33h5_hTJ3OIpYH4U0M0OpW6caciLdiks5w8KJxCXdqKysHDHgDH-qv-WO3jo=w240-h480-rw"
+          class="me-2" height="20" alt="MDB Logo" loading="lazy" />
         <small>Make by Clicknext intern</small>
       </a>
     </div>
@@ -44,7 +75,7 @@
     </div>
     <div class="mb-2">
       <div class="row">
-        <label for="name" class="form-label d-inline-block m-0">result:</label>
+        <label for="name" class="form-label d-inline-block m-0">ผลลัพธ์:</label>
       </div>
       <pre>
         <code class="language-css" id="result"></code>
@@ -59,12 +90,12 @@
       <!-- Section: Social media -->
       <section class="mb-4">
         <!-- Facebook -->
-        <a class="btn text-white btn-floating m-1" style="background-color: #3b5998;" href="#!" role="button"><i
-            class="bi bi-facebook"></i></a>
+        <a class="btn text-white btn-floating m-1" style="background-color: #3b5998;"
+          href="https://www.facebook.com/bezz.junior/" target="_blank" role="button"><i class="bi bi-facebook"></i></a>
 
         <!-- Github -->
-        <a class="btn text-white btn-floating m-1" style="background-color: #333333;" href="#!" role="button"><i
-            class="bi bi-github"></i></a>
+        <a class="btn text-white btn-floating m-1" style="background-color: #333333;" href="https://github.com/62160140"
+          target="_blank" role="button"><i class="bi bi-github"></i></a>
       </section>
       <!-- Section: Social media -->
     </div>
@@ -86,7 +117,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"
   integrity="sha512-UOoJElONeUNzQbbKQbjldDf9MwOHqxNz49NNJJ1d90yp+X9edsHyJoAs6O4K19CZGaIdjI5ohK+O2y5lBTW6uQ=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+  //alert
+  $('.alert').css('opacity', '0')
+
   document.querySelector('textarea').addEventListener('keyup', () => {
     var input = document.querySelector('textarea').value
     var stringReplace = input.replace(/^\s+/gm, '')
@@ -95,13 +131,24 @@
     document.getElementById('result').innerHTML = `${finalResult.replaceAll("<", "&lt;")}`
 
   })
-  // //get value from textarea
-  // var input = document.querySelector('textarea').value
-  // var stringReplace = input.replace(/^\s+/gm, '')
-  // var stringReplaceHtmlPush = stringReplace.replace(/(^<)/gm, 'html.push(`<')
-  // var finalResult = stringReplaceHtmlPush.replace(/(\S)$/gm, '$1`);')
 
-  // document.getElementById('result').innerHTML = `${finalResult.replaceAll("<", "&lt;")}`
+  //button copy
+  document.querySelector('code').addEventListener('click', () => {
+    var copyText = document.getElementById("result");
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.innerHTML);
+    console.log($('.alert'))
+    //alert
+    $('.alert').css('opacity', '1')
+
+
+    setTimeout(() => {
+      $('.alert').css('opacity', '0')
+    }, 1000);
+
+  })
+
 </script>
 
 </html>
